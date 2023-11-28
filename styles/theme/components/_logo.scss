@@ -1,0 +1,18 @@
+// Logo
+.logo {
+    position: relative;
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+}
+
+// Logo Size
+.logo-xs {
+    width: $logo-size-xs;
+    height: $logo-size-xs;
+}
+
+.logo-md {
+    width: $logo-size-md;
+    height: $logo-size-md;
+}
