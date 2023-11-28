@@ -34,7 +34,7 @@ export const DashboardMenu = [
 	{ id: uuid(), link: '/pages/payments/list', title: 'Payment Requests', icon: 'withdraw' },
 	{ id: uuid(), link: '/pages/payment-methods/list', title: 'Payment Method', icon: 'cash' },
 	{ id: uuid(), link: '/pages/notifications/list', title: 'Notifications', icon: 'notification' },
-	{ id: uuid(), link: '/pages/settings', title: 'Refer Tasks', icon: 'corner-left-down' },
+	{ id: uuid(), link: '/pages/refer-tasks/list', title: 'Refer Tasks', icon: 'corner-left-down' },
 	{ id: uuid(), link: '/pages/profile', title: 'Profile', icon: 'user' },
 	{ id: uuid(), link: '/pages/settings', title: 'Settings', icon: 'settings' },
 	// { id: uuid(), link: '/pages/billing', title: 'Billing' },

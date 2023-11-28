@@ -3,13 +3,8 @@ import { Container, Form } from 'react-bootstrap';
 
 import { Col, Row, Card, Button } from "react-bootstrap";
 import Link from "next/link";
-import ReactDatePicker from 'react-datepicker';
-import { useState } from 'react';
 
-import "react-datepicker/dist/react-datepicker.css";
-
-const EditNotification = () => {
-  const [notifyDate, setNotifyDate] = useState(new Date());
+const EditReferTask = () => {
 
   return (
     <Container fluid className="p-6">
@@ -19,73 +14,52 @@ const EditNotification = () => {
             {/* card body */}
             <Card.Body>
               <div className=" mb-6">
-                <h4 className="mb-1">Edit Notification</h4>
+                <h4 className="mb-1">Edit Refer Task</h4>
               </div>
               <Form>
                 <Row className="mb-3">
-                  <div className="col-sm-3">Title</div>
+                  <div className="col-sm-3">Task Number</div>
                   <div className="col-md-9 col-12">
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Title"
-                      id="title"
+                      placeholder="Task name"
+                      id="name"
                       required
                     />
                   </div>
                 </Row>
                 {/* row */}
                 <Row className="mb-3">
-                  <div className="col-sm-3">Message</div>
+                  <div className="col-sm-3">Invites</div>
                   <div className="col-md-9 col-12">
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
-                      placeholder="Message"
-                      id="message"
+                      placeholder="Number Invites"
+                      id="invites"
                       required
                     />
                   </div>
                 </Row>
                 {/* row */}
                 <Row className="mb-3">
-                  <div className="col-sm-3">Time</div>
+                  <div className="col-sm-3">Point</div>
                   <div className="col-md-9 col-12">
-                    <ReactDatePicker
-                      selected={notifyDate}
-                      onChange={(date) => setNotifyDate(date)}
-                      showTimeSelect
-                      dateFormat="Pp">
-
-                    </ReactDatePicker>
-                  </div>
-                </Row>
-                {/* row */}
-                <Row className="mb-3">
-                  <div className="col-sm-3">Type</div>
-                  <div className="col-md-9 col-12">
-                    <Form.Select
-                      id="type"
-                      name="type"
-                    >
-                      <option value="monthly" className="text-muted">
-                          One time
-                        </option>
-                      <option value="daily" className="text-muted">
-                          Daily
-                        </option>
-                        <option value="monthly" className="text-muted">
-                          Monthly
-                        </option>
-                        
-                    </Form.Select>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="100"
+                      id="point"
+                      required
+                    />
                   </div>
                 </Row>
                 {/* Point */}
                 <Row className="align-items-center">
                   <Col md={{ offset: 3, span: 9 }} xs={12} className="mt-4">
                     <Link
-                      href="/pages/notifications/list"
+                      href="/pages/refer-tasks/list"
                       className="btn btn-outline-primary"
                     >
                       Cancel
@@ -104,4 +78,4 @@ const EditNotification = () => {
   )
 }
 
-export default EditNotification;
+export default EditReferTask;

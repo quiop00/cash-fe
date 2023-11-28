@@ -78,7 +78,7 @@ const PaymentRequestDetail = () => {
                       href="/pages/payments/list"
                       className="btn btn-outline-primary"
                     >
-                      Cancle
+                      Cancel
                     </Link>
                     <Button variant="danger" type="submit" className="mx-4">
                       Reject

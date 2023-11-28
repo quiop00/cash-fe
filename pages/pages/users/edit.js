@@ -117,7 +117,7 @@ const EditUser = () => {
                         href="/pages/users/list"
                         className="btn btn-outline-primary"
                       >
-                        Cancle
+                        Cancel
                       </Link>
                       <Button variant="primary" type="submit" className="mx-4">
                         Save Changes

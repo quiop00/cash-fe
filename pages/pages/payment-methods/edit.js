@@ -74,7 +74,7 @@ const EditPaymentMethod = () => {
                       href="/pages/payment-methods/list"
                       className="btn btn-outline-primary"
                     >
-                      Cancle
+                      Cancel
                     </Link>
                     <Button variant="primary" type="submit" className="mx-4">
                       Save

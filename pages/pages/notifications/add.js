@@ -88,7 +88,7 @@ const AddNotification = () => {
                       href="/pages/notifications/list"
                       className="btn btn-outline-primary"
                     >
-                      Cancle
+                      Cancel
                     </Link>
                     <Button variant="primary" type="submit" className="mx-4">
                       Save
