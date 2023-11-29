@@ -1,8 +1,6 @@
 // import node module libraries
 import { Card, Container, Nav, Tab } from 'react-bootstrap';
-import Ads from 'sub-components/settings/Ads';
-import Offerwall from 'sub-components/settings/Offerwall';
-import Reward from 'sub-components/settings/Reward';
+import {Ads, Offerwall, Reward} from 'sub-components';
 
 const Settings = () => {
   return (
