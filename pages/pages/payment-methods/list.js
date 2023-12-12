@@ -1,9 +1,16 @@
 // import node module libraries
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Table, Container, Button, Image } from 'react-bootstrap';
 import { Edit, Trash } from 'react-feather';
 
 const PaymentMedthods = () => {
+  const [methods, setMethods] = useState([]);
+
+  useEffect(() => {
+    //const getMethods 
+  }, [])
+
   return (
     <Container fluid className="p-6">
       <Row>
@@ -40,7 +47,7 @@ const PaymentMedthods = () => {
                     <td>Coins = $</td>
                     <td>1200</td>
                     <td>
-                      <Link href="/pages/payment-methods/edit">
+                      <Link href={`/pages/payment-methods/edit`}>
                         <Button variant="primary" size="sm" className="me-1">
                           <Edit size="18px" />
                         </Button>

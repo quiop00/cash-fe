@@ -1,7 +1,7 @@
-import { BASE_URL, getApi, postApi } from "data/api/base"
+import { AUTH_BASE_URL, getApi, postApi } from "data/api/base"
 import { User } from "data/models/User"
 
-const LOGIN_URL = `${BASE_URL}/auth/admin/login`;
+const LOGIN_URL = `${AUTH_BASE_URL}/auth/admin/login`;
 
 const login = async (user: User) => {
   const response = await postApi(LOGIN_URL, user);

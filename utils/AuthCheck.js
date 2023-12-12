@@ -8,7 +8,7 @@ export const AuthCheck = (props) => {
     token = localStorage.getItem("TOKEN");
   }
 
-  const isJWTValid = token != null;
+  const isJWTValid = token != null && token != '';
 
   if (typeof window !== 'undefined' && !isJWTValid) {
     router.push('/authentication/sign-in');

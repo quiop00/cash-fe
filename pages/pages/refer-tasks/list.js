@@ -1,9 +1,26 @@
 // import node module libraries
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Table, Container, Button, Image } from 'react-bootstrap';
 import { Edit, Trash } from 'react-feather';
+import { referTaskService } from "services/referTask.service";
 
 const ReferTasks = () => {
+
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const getTasks = async () => {
+      const res = await referTaskService.getReferTasks();
+      if (res.statusCode == 200) {
+        setTasks(res.data);
+      } else {
+        setTasks([])
+      }
+    }
+    getTasks();
+  },[])
+
   return (
     <Container fluid className="p-6">
       <Row>
@@ -31,12 +48,13 @@ const ReferTasks = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">Task 1</th>
-                    <td>5</td>
-                    <td>100</td>
+                  {tasks.map((e) => (
+                    <tr>
+                    <th scope="row">{e.name}</th>
+                    <td>{e.invited}</td>
+                    <td>{e.point}</td>
                     <td>
-                      <Link href="/pages/refer-tasks/edit">
+                      <Link href={`/pages/refer-tasks/${e.id}`}>
                         <Button variant="primary" size="sm" className="me-1">
                           <Edit size="18px" />
                         </Button>
@@ -46,6 +64,7 @@ const ReferTasks = () => {
                       </Button>
                     </td>
                   </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card.Body>

@@ -3,8 +3,31 @@ import { Container } from 'react-bootstrap';
 
 import { Col, Row, Card, Button, Badge } from "react-bootstrap";
 import Link from "next/link";
+import { paymentService } from 'services/payment.service';
+import { useState } from 'react';
 
-const PaymentRequestDetail = () => {
+const PaymentRequestDetail = ({data}) => {
+  const [paymentRequest, setPaymentRequest] = useState(data);
+
+  const approve = async() => {
+    const res = await paymentService.approveRequest(paymentRequest.id);
+    if (res.statusCode == 200) {
+      setPaymentRequest((prevPaymentRequest) => ({
+        ...prevPaymentRequest,
+        status: 'COMPLETED', 
+      }));
+    }
+
+  }
+  const reject = async() => {
+    const res = await paymentService.rejectRequest(paymentRequest.id);
+    if (res.statusCode == 200) {
+      setPaymentRequest((prevPaymentRequest) => ({
+        ...prevPaymentRequest,
+        status: 'REJECT', 
+      }));
+    }
+  }
   return (
     <Container fluid className="p-6">
       <Row className="mb-8">
@@ -19,14 +42,14 @@ const PaymentRequestDetail = () => {
                 <Row className="mb-3">
                   <div className="col-sm-4">Full name</div>
                   <div className="col-md-8 col-12">
-                    Full name
+                    {paymentRequest.paymentInfo.fullname}
                   </div>
                 </Row>
                 {/* row */}
                 <Row className="mb-3">
                   <div className="col-sm-4">Point</div>
                   <div className="col-md-8 col-12">
-                    1000
+                  {paymentRequest.point}
                   </div>
                 </Row>
                 {/* row */}
@@ -40,14 +63,14 @@ const PaymentRequestDetail = () => {
                 <Row className="mb-3">
                   <div className="col-sm-4">Payment Method</div>
                   <div className="col-md-8 col-12">
-                    Paypal
+                  {paymentRequest.paymentInfo.method}
                   </div>
                 </Row>
                 {/* row */}
                 <Row className="mb-3">
                   <div className="col-sm-4">Info</div>
                   <div className="col-md-8 col-12">
-                    tin96425@gmail.com
+                  {paymentRequest.paymentInfo.value}
                   </div>
                 </Row>
                 <Row className="mb-3">
@@ -56,21 +79,13 @@ const PaymentRequestDetail = () => {
                     20-10-2023
                   </div>
                 </Row>
-                <Row className="mb-3">
+                {/* status */}
+                <Row className="align-items-center">
                   <div className="col-sm-4">Status</div>
-
                   <div className="col-md-8 col-12">
-                    <Badge bg="success" className="me-1">
+                  <Badge bg="success" className="me-1">
                       Completed
                     </Badge>
-                  </div>
-                </Row>
-
-                {/* Point */}
-                <Row className="align-items-center">
-                  <div className="col-sm-4">Full name</div>
-                  <div className="col-md-8 col-12">
-                    Full name
                   </div>
 
                   <Col md={{ offset: 4, span: 8 }} xs={12} className="mt-4">
@@ -80,10 +95,10 @@ const PaymentRequestDetail = () => {
                     >
                       Cancel
                     </Link>
-                    <Button variant="danger" type="submit" className="mx-4">
+                    <Button variant="danger" onClick={approve} className="mx-4">
                       Reject
                     </Button>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" onClick={reject}>
                       Approve
                     </Button>
                   </Col>
@@ -99,3 +114,16 @@ const PaymentRequestDetail = () => {
 }
 
 export default PaymentRequestDetail;
+
+export async function getServerSideProps({ params}) {
+  const { id } = params;
+
+  // Fetch thông tin chi tiết người dùng từ API hoặc nguồn dữ liệu khác
+  const res = await paymentService.getPaymentRequestById(id);
+
+  return {
+    props: {
+      data: res.data,
+    },
+  };
+}

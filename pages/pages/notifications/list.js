@@ -1,9 +1,24 @@
 // import node module libraries
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Table, Container, Button, Image } from 'react-bootstrap';
 import { Edit, Trash } from 'react-feather';
+import { notificationService } from "services/notification.service";
 
 const Notifications = () => {
+  const [notifications, setNotifications] = useState();
+
+  useEffect(async () => {
+    const getNotifications = async () => {
+      const res = await notificationService.getNotifications();
+      if (res.statusCode == 200) {
+        setNotifications(res.data);
+      }
+    }
+    getNotifications();
+
+  }, [])
+
   return (
     <Container fluid className="p-6">
       <Row>
@@ -32,13 +47,14 @@ const Notifications = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">Change payment date</th>
-                    <td>Change payment date</td>
-                    <td>20:10 30-11-2023 T6</td>
-                    <td>Daily</td>
+                  {notifications.map((e) => (
+                    <tr>
+                    <th scope="row">{e.title}</th>
+                    <td>{e.content}</td>
+                    <td>{e.noticeAt}</td>
+                    <td>{e.type}</td>
                     <td>
-                      <Link href="/pages/notifications/edit">
+                      <Link href={`/pages/notifications/${e.id}`}>
                         <Button variant="primary" size="sm" className="me-1">
                           <Edit size="18px" />
                         </Button>
@@ -48,6 +64,7 @@ const Notifications = () => {
                       </Button>
                     </td>
                   </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card.Body>

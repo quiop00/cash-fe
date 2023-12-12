@@ -7,9 +7,38 @@ import ReactDatePicker from 'react-datepicker';
 import { useState } from 'react';
 
 import "react-datepicker/dist/react-datepicker.css";
+import { notificationService } from 'services/notification.service';
+import { NotificationType } from 'data/models/Notification';
 
-const EditNotification = () => {
+const EditNotification = ({ data }) => {
   const [notifyDate, setNotifyDate] = useState(new Date());
+  const [notification, setNotification] = useState(data);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setNotification((preUser) => ({
+      ...preUser,
+      [name]: value
+    }))
+  }
+
+  const selectTime = (date) => {
+    setNotifyDate(date);
+    setNotification((preUser) => ({
+      ...preUser,
+      'noticeAt': date
+    }))
+  }
+
+  const onSubmit = async () => {
+    const res = await notificationService.updateNotification(notification.id, notification);
+    if (res.statusCode == 200) {
+      // show message success
+    } else {
+      // show message error
+    }
+  }
 
   return (
     <Container fluid className="p-6">
@@ -30,7 +59,10 @@ const EditNotification = () => {
                       className="form-control"
                       placeholder="Title"
                       id="title"
+                      name='title'
                       required
+                      onChange={handleInputChange}
+                      defaultValue={notification.title}
                     />
                   </div>
                 </Row>
@@ -43,7 +75,10 @@ const EditNotification = () => {
                       className="form-control"
                       placeholder="Message"
                       id="message"
+                      name='content'
                       required
+                      onChange={handleInputChange}
+                      defaultValue={notification.content}
                     />
                   </div>
                 </Row>
@@ -53,7 +88,7 @@ const EditNotification = () => {
                   <div className="col-md-9 col-12">
                     <ReactDatePicker
                       selected={notifyDate}
-                      onChange={(date) => setNotifyDate(date)}
+                      onChange={(date) => selectTime(date)}
                       showTimeSelect
                       dateFormat="Pp">
 
@@ -67,17 +102,13 @@ const EditNotification = () => {
                     <Form.Select
                       id="type"
                       name="type"
+                      onChange={handleInputChange}
                     >
-                      <option value="monthly" className="text-muted">
-                          One time
+                      {NotificationType.map(e => (
+                        <option value={e} className="text-muted">
+                          {e}
                         </option>
-                      <option value="daily" className="text-muted">
-                          Daily
-                        </option>
-                        <option value="monthly" className="text-muted">
-                          Monthly
-                        </option>
-                        
+                      ))}
                     </Form.Select>
                   </div>
                 </Row>
@@ -90,7 +121,7 @@ const EditNotification = () => {
                     >
                       Cancel
                     </Link>
-                    <Button variant="primary" type="submit" className="mx-4">
+                    <Button variant="primary" onClick={onSubmit} className="mx-4">
                       Save
                     </Button>
                   </Col>
@@ -105,3 +136,16 @@ const EditNotification = () => {
 }
 
 export default EditNotification;
+
+export async function getServerSideProps({ params }) {
+  const { id } = params;
+
+  // Fetch thông tin chi tiết người dùng từ API hoặc nguồn dữ liệu khác
+  const res = await notificationService.getNotificationDetail(id);
+
+  return {
+    props: {
+      data: res.data,
+    },
+  };
+}

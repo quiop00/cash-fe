@@ -3,8 +3,30 @@ import { Container, Form } from 'react-bootstrap';
 
 import { Col, Row, Card, Button } from "react-bootstrap";
 import Link from "next/link";
+import { useState } from 'react';
+import { ReferTask } from 'data/models/ReferTask';
+import { referTaskService } from 'services/referTask.service';
 
 const AddReferTask = () => {
+  const [task, setTask] = useState(new ReferTask());
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setTask((preTask) => ({
+      ...preTask,
+      [name]: value
+    }))
+  }
+
+  const onSubmit = async () => {
+    const res = await referTaskService.createReferTask(task);
+    if (res.statusCode == 200) {
+
+    } else {
+
+    }
+  }
 
   return (
     <Container fluid className="p-6">
@@ -25,7 +47,9 @@ const AddReferTask = () => {
                       className="form-control"
                       placeholder="Task name"
                       id="name"
+                      name='name'
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
                 </Row>
@@ -38,7 +62,9 @@ const AddReferTask = () => {
                       className="form-control"
                       placeholder="Number Invites"
                       id="invites"
+                      name='invited'
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
                 </Row>
@@ -51,7 +77,9 @@ const AddReferTask = () => {
                       className="form-control"
                       placeholder="100"
                       id="point"
+                      name='point'
                       required
+                      onChange={handleInputChange}
                     />
                   </div>
                 </Row>
@@ -64,7 +92,7 @@ const AddReferTask = () => {
                     >
                       Cancel
                     </Link>
-                    <Button variant="primary" type="submit" className="mx-4">
+                    <Button variant="primary" onClick={onSubmit} className="mx-4">
                       Save
                     </Button>
                   </Col>
