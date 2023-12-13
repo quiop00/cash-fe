@@ -3,8 +3,29 @@ import { Container, Form } from 'react-bootstrap';
 
 import { Col, Row, Card, Button } from "react-bootstrap";
 import Link from "next/link";
+import { referTaskService } from 'services/referTask.service';
 
-const EditReferTask = () => {
+const EditReferTask = ({data}) => {
+
+  const [task, setTask] = useState(data);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setTask((preTask) => ({
+      ...preTask,
+      [name]: value
+    }))
+  }
+
+  const onSubmit = async () => {
+    const res = await referTaskService.updateReferTask(task);
+    if (res.statusCode == 200) {
+      // Show message success
+    } else {
+      // Show message error
+    }
+  }
 
   return (
     <Container fluid className="p-6">
@@ -25,7 +46,10 @@ const EditReferTask = () => {
                       className="form-control"
                       placeholder="Task name"
                       id="name"
+                      name='name'
                       required
+                      onChange={handleInputChange}
+                      defaultValue={task.name}
                     />
                   </div>
                 </Row>
@@ -38,7 +62,10 @@ const EditReferTask = () => {
                       className="form-control"
                       placeholder="Number Invites"
                       id="invites"
+                      name='invited'
                       required
+                      onChange={handleInputChange}
+                      defaultValue={task.invited}
                     />
                   </div>
                 </Row>
@@ -51,7 +78,10 @@ const EditReferTask = () => {
                       className="form-control"
                       placeholder="100"
                       id="point"
+                      name='point'
                       required
+                      onChange={handleInputChange}
+                      defaultValue={task.point}
                     />
                   </div>
                 </Row>
@@ -64,7 +94,7 @@ const EditReferTask = () => {
                     >
                       Cancel
                     </Link>
-                    <Button variant="primary" type="submit" className="mx-4">
+                    <Button variant="primary" onClick={onSubmit} className="mx-4">
                       Save
                     </Button>
                   </Col>
@@ -79,3 +109,16 @@ const EditReferTask = () => {
 }
 
 export default EditReferTask;
+
+export async function getServerSideProps({ params}) {
+  const { id } = params;
+
+  // Fetch thông tin chi tiết người dùng từ API hoặc nguồn dữ liệu khác
+  const res = await referTaskService.getReferTaskById(id);
+
+  return {
+    props: {
+      data: res.data,
+    },
+  };
+}

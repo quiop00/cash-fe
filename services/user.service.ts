@@ -27,8 +27,17 @@ const blockUser = async (id: number) =>{
     return await response.json();
 }
 
+const changePassword = async(data: any) => {
+    const response = await putApi(`${USER_URL}/change-password/`, data);
+    if (!response.ok) {
+        throw new Error("Error");
+    }
+    return await response.json();
+}
+
 export const userService = {
     getUsers,
     getUserById,
-    blockUser
+    blockUser,
+    changePassword,
 }

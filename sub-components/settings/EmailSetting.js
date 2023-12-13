@@ -1,7 +1,35 @@
 // import node module libraries
 import { Col, Row, Form, Card, Button } from 'react-bootstrap';
+import { userService } from 'services/user.service';
 
 const EmailSetting = () => {
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [reNewPassword, setReNewPassword] = useState('');
+
+
+  const onSubmit = async () => {
+    // validate new & renew password
+    if (newPassword == '') {
+      // show error
+      return;
+    }
+    if (newPassword != reNewPassword) {
+      // show error
+      return;
+    }
+
+    const res = await userService.changePassword({
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    });
+    if (res.statusCode == 200) {
+      // Show message success
+    } else {
+      // Show message error
+    }
+  }
+
   return (
     <Row className="mb-8">
       <Col xl={3} lg={4} md={12} xs={12}>
@@ -18,8 +46,7 @@ const EmailSetting = () => {
             <div className="mb-6">
               <h4 className="mb-1">Email</h4>
             </div>
-            <Form>
-              {/* New email */}
+            {/* <Form>
               <Row className="mb-3">
                 <Form.Label className="col-sm-4" htmlFor="newEmailAddress">New email</Form.Label>
                 <Col md={8} xs={12}>
@@ -31,7 +58,7 @@ const EmailSetting = () => {
                   </Button>
                 </Col>
               </Row>
-            </Form>
+            </Form> */}
             <div className="mb-6 mt-6">
               <h4 className="mb-1">Change your password</h4>
             </div>
@@ -41,7 +68,9 @@ const EmailSetting = () => {
               <Row className="mb-3">
                 <Form.Label className="col-sm-4" htmlFor="currentPassword">Current password</Form.Label>
                 <Col md={8} xs={12}>
-                  <Form.Control type="password" placeholder="Enter Current password" id="currentPassword" required />
+                  <Form.Control type="password" placeholder="Enter Current password"
+                    id="currentPassword" required
+                    onChange={() => setOldPassword(e.target.value)} />
                 </Col>
               </Row>
 
@@ -49,7 +78,9 @@ const EmailSetting = () => {
               <Row className="mb-3">
                 <Form.Label className="col-sm-4" htmlFor="newPassword">New password</Form.Label>
                 <Col md={8} xs={12}>
-                  <Form.Control type="password" placeholder="Enter New password" id="newPassword" required />
+                  <Form.Control type="password" placeholder="Enter New password" id="newPassword" required
+                    onChange={() => setNewPassword(e.target.value)}
+                  />
                 </Col>
               </Row>
 
@@ -57,11 +88,13 @@ const EmailSetting = () => {
               <Row className="align-items-center">
                 <Form.Label className="col-sm-4" htmlFor="confirmNewpassword">Confirm new password</Form.Label>
                 <Col md={8} xs={12}>
-                  <Form.Control type="password" placeholder="Confirm new password" id="confirmNewpassword" required />
+                  <Form.Control type="password" placeholder="Confirm new password" id="confirmNewpassword" required
+                    onChange={() => setReNewPassword(e.target.value)}
+                  />
                 </Col>
                 {/* list */}
                 <Col md={{ offset: 4, span: 8 }} xs={12} className="mt-4">
-                  <h6 className="mb-1">Password requirements:</h6>
+                  {/* <h6 className="mb-1">Password requirements:</h6>
                   <p>Ensure that these requirements are met:</p>
                   <ul>
                     <li> Minimum 8 characters long the more, the better</li>
@@ -69,15 +102,13 @@ const EmailSetting = () => {
                     <li>At least one uppercase character</li>
                     <li>At least one number, symbol, or whitespace character
                     </li>
-                  </ul>
-                  <Button variant="primary" type="submit">
+                  </ul> */}
+                  <Button variant="primary" onClick={onSubmit}>
                     Save Changes
                   </Button>
                 </Col>
               </Row>
-              
             </Form>
-
           </Card.Body>
         </Card>
       </Col>
