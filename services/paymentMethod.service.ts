@@ -10,9 +10,9 @@ const getMethodDetail = async() => {
 
 }
 
-// const update =async (params:type) => {
+const update =async (params:any) => {
     
-// }
+}
 
 export const paymentMethodService = {
 
